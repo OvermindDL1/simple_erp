@@ -1,0 +1,60 @@
+# Only allow specificly allowed things
+# Can see what's ignored by this with:  git status --ignored
+
+# Deny everything by default
+*
+
+# Allow directories (directories with no tracked files don't get committed regardless)
+!**/
+
+# General git related files
+!/.gitignore
+!/.gitattributes
+!/.gitmodules
+
+# Github specific files
+!/.github/**/*
+
+# Editor config files
+!.editorconfig
+
+# IDEA run configurations
+!/.run/**/*
+
+# License files
+!LICENSE*
+!COPYING*
+!INSTALL*
+!README*
+
+# Documentation files
+!*.md
+
+# Rust Build files
+!/**/Cargo.toml
+!/rustfmt.toml
+
+# Making an executable, so keep the lock file
+!/Cargo.lock
+
+# Rust Source files
+!/build.rs
+!/**/src/**/*.rs
+!/**/test/**/*.rs
+!/**/benches/**/*.rs
+!/**/examples/**/*.rs
+
+# Assets
+!/assets/**/*
+
+# Documentation
+!/docs/**/*
+
+# Migrations
+!/migrations/*.sql
+!/.env
+
+# End 2 End Testing
+!/end2end/*.json
+!/end2end/*.ts
+!/end2end/tests/**/*.spec.ts

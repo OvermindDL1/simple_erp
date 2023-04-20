@@ -1,0 +1,94 @@
+[package]
+name = "simple_erp"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+anyhow = { version = "1.0.70", optional = true }
+axum = { version = "0.6.15", optional = true }
+axum-login = { version = "0.5.0", optional = true, features = ["sqlx"] }
+chrono = "0.4.24"
+clap = { version = "4.2.2", optional = true, features = ["derive", "env"] }
+console_error_panic_hook = { version = "0.1.7", optional = true }
+console_log = { version = "1.0.0", optional = true }
+dirs = { version = "5.0.0", optional = true }
+leptos = { version = "0.2.5", features = ["stable", "serde"] }
+leptos_axum = { version = "0.2.5", optional = true }
+leptos_meta = { version = "0.2.5" }
+leptos_router = { version = "0.2.5", features = ["stable"] }
+log = { version = "0.4.17", optional = true }
+serde = { version = "1.0.160", features = ["derive"] }
+sqlx = { version = "0.7.0-alpha.2", features = ["runtime-tokio", "tls-rustls", "sqlite", "macros", "migrate", "chrono", "uuid"], optional = true }
+tokio = { version = "1.27.0", optional = true, features = ["time"] }
+toml = { version = "0.7.3", optional = true }
+tower = { version = "0.4.13", optional = true }
+tower-http = { version = "0.4.0", optional = true, features = ["fs"] }
+tracing = { version = "0.1.37", optional = true, features = ["log"] }
+tracing-subscriber = { version = "0.3.16", optional = true, features = ["json", "env-filter", "registry"] }
+wasm-bindgen = { version = "0.2.84", optional = true }
+
+[features]
+hydrate = ["leptos/hydrate", "leptos_meta/hydrate", "leptos_router/hydrate", "dep:wasm-bindgen", "dep:log", "dep:console_log", "dep:console_error_panic_hook"]
+ssr = ["dep:axum", "dep:tower", "dep:tower-http", "dep:tokio", "leptos/ssr", "leptos_meta/ssr", "leptos_router/ssr", "dep:leptos_axum", "dep:axum-login", "dep:anyhow", "dep:tracing", "dep:tracing-subscriber", "dep:clap", "dep:sqlx", "dep:dirs", "dep:toml"]
+
+[profile.dev.package.sqlx-macros]
+opt-level = 3
+
+[patch.crates-io]
+leptos = { path = "../leptos/leptos" }
+leptos_axum = { path = "../leptos/integrations/axum" }
+leptos_meta = { path = "../leptos/meta" }
+leptos_router = { path = "../leptos/router" }
+
+[package.metadata.leptos]
+# The name used by wasm-bindgen/cargo-leptos for the JS/WASM bundle. Defaults to the crate name
+output-name = "erpc"
+# The site root folder is where cargo-leptos generate all output. WARNING: all content of this folder will be erased on a rebuild. Use it in your server setup.
+site-root = "target/site"
+# The site-root relative folder where all compiled output (JS, WASM and CSS) is written
+# Defaults to pkg
+site-pkg-dir = "pkg"
+# [Optional] The source CSS file. If it ends with .sass or .scss then it will be compiled by dart-sass into CSS. The CSS is optimized by Lightning CSS before being written to <site-root>/<site-pkg>/app.css
+style-file = "assets/style/main.scss"
+# Assets source dir. All files found here will be copied and synchronized to site-root.
+# The assets-dir cannot have a sub directory with the same name/path as site-pkg-dir.
+#
+# Optional. Env: LEPTOS_ASSETS_DIR.
+assets-dir = "assets/static"
+# The IP and port (ex: 127.0.0.1:3000) where the server serves the content. Use it in your server setup.
+site-addr = "127.0.0.1:3000"
+# The port to use for automatic reload monitoring
+reload-port = 3001
+# [Optional] Command to use when running end2end tests. It will run in the end2end dir.
+#   [Windows] for non-WSL use "npx.cmd playwright test"
+#   This binary name can be checked in Powershell with Get-Command npx
+end2end-cmd = "npx playwright test"
+end2end-dir = "end2end"
+#  The browserlist query used for optimizing the CSS.
+browserquery = "defaults"
+# Set by cargo-leptos watch when building with that tool. Controls whether autoreload JS will be included in the head
+watch = false
+# The environment Leptos will run in, usually either "DEV" or "PROD"
+env = "DEV"
+# The features to use when compiling the bin target
+#
+# Optional. Can be over-ridden with the command line parameter --bin-features
+bin-features = ["ssr"]
+
+# If the --no-default-features flag should be used when compiling the bin target
+#
+# Optional. Defaults to false.
+bin-default-features = false
+
+# The features to use when compiling the lib target
+#
+# Optional. Can be over-ridden with the command line parameter --lib-features
+lib-features = ["hydrate"]
+
+# If the --no-default-features flag should be used when compiling the lib target
+#
+# Optional. Defaults to false.
+lib-default-features = false
