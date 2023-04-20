@@ -43,6 +43,8 @@ impl Default for LogArgs {
 mod with_tracing_level {
 	use serde::Deserialize;
 
+	// I have no control over the signature for this function clippy, hush
+	#[allow(clippy::trivially_copy_pass_by_ref)]
 	pub fn serialize<S: serde::Serializer>(level: &tracing::Level, s: S) -> Result<S::Ok, S::Error> {
 		s.serialize_str(&level.to_string())
 	}
@@ -67,7 +69,7 @@ impl std::fmt::Display for LoggerError {
 	}
 }
 
-impl std::error::Error for LoggerError {
+impl Error for LoggerError {
 	fn source(&self) -> Option<&(dyn Error + 'static)> {
 		match self {
 			LoggerError::TracingSubscriberInitError(e) => Some(e),

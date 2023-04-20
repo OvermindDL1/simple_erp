@@ -15,7 +15,7 @@ clap = { version = "4.2.2", optional = true, features = ["derive", "env"] }
 console_error_panic_hook = { version = "0.1.7", optional = true }
 console_log = { version = "1.0.0", optional = true }
 dirs = { version = "5.0.0", optional = true }
-leptos = { version = "0.2.5", features = ["stable", "serde"] }
+leptos = { version = "0.2.5", default-features = false, features = ["stable", "serde"] }
 leptos_axum = { version = "0.2.5", optional = true }
 leptos_meta = { version = "0.2.5" }
 leptos_router = { version = "0.2.5", features = ["stable"] }
@@ -26,13 +26,14 @@ tokio = { version = "1.27.0", optional = true, features = ["time"] }
 toml = { version = "0.7.3", optional = true }
 tower = { version = "0.4.13", optional = true }
 tower-http = { version = "0.4.0", optional = true, features = ["fs"] }
-tracing = { version = "0.1.37", optional = true, features = ["log"] }
-tracing-subscriber = { version = "0.3.16", optional = true, features = ["json", "env-filter", "registry"] }
+tracing = { version = "0.1.37", features = ["log"] }
+tracing-subscriber = { version = "0.3.16", features = ["json", "env-filter", "registry"] }
+tracing-subscriber-wasm = { version = "0.1.0", optional = true }
 wasm-bindgen = { version = "0.2.84", optional = true }
 
 [features]
-hydrate = ["leptos/hydrate", "leptos_meta/hydrate", "leptos_router/hydrate", "dep:wasm-bindgen", "dep:log", "dep:console_log", "dep:console_error_panic_hook"]
-ssr = ["dep:axum", "dep:tower", "dep:tower-http", "dep:tokio", "leptos/ssr", "leptos_meta/ssr", "leptos_router/ssr", "dep:leptos_axum", "dep:axum-login", "dep:anyhow", "dep:tracing", "dep:tracing-subscriber", "dep:clap", "dep:sqlx", "dep:dirs", "dep:toml"]
+hydrate = ["leptos/hydrate", "leptos_meta/hydrate", "leptos_router/hydrate", "dep:wasm-bindgen", "dep:log", "dep:console_log", "dep:console_error_panic_hook", "dep:tracing-subscriber-wasm"]
+ssr = ["dep:axum", "dep:tower", "dep:tower-http", "dep:tokio", "leptos/ssr", "leptos_meta/ssr", "leptos_router/ssr", "dep:leptos_axum", "dep:axum-login", "dep:anyhow", "dep:clap", "dep:sqlx", "dep:dirs", "dep:toml"]
 
 [profile.dev.package.sqlx-macros]
 opt-level = 3

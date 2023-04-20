@@ -3,8 +3,8 @@
 #[allow(unused_imports)]
 use leptos::server_fn::ServerFn;
 // Because this is what `leptos::tracing` does...
-#[cfg(debug_assertions)]
-use leptos::tracing;
+// #[cfg(debug_assertions)]
+// use leptos::tracing;
 #[cfg(feature = "ssr")]
 use leptos::ServerFn as _;
 use leptos::{component, create_resource, server, server_fn, view, IntoView, Scope, ServerFnError, Suspense};
@@ -85,18 +85,19 @@ pub fn db(cx: Scope) -> Result<crate::ArcDBPool, ServerFnError> {
 
 #[server(GetUsers, "/api")]
 async fn get_users(cx: Scope) -> Result<Vec<(String, String)>, ServerFnError> {
-	tokio::time::sleep(std::time::Duration::from_secs(1)).await;
-	let db = db(cx)?;
-	let users = sqlx::query!("SELECT username, name FROM users")
-		.fetch_all(&*db)
-		.await
-		.map_err(|e| {
-			tracing::debug!("database error: {e:?}");
-			ServerFnError::ServerError("database error".to_string())
-		})?
-		.into_iter()
-		.map(|u| (u.username, u.name))
-		.collect();
-	dbg!(&users);
+	// tokio::time::sleep(std::time::Duration::from_secs(1)).await;
+	let users = vec![("TestUser".to_string(), "test".to_string())];
+	// let db = db(cx)?;
+	// let users = sqlx::query!("SELECT username, name FROM users")
+	// 	.fetch_all(&*db)
+	// 	.await
+	// 	.map_err(|e| {
+	// 		tracing::debug!("database error: {e:?}");
+	// 		ServerFnError::ServerError("database error".to_string())
+	// 	})?
+	// 	.into_iter()
+	// 	.map(|u| (u.username, u.name))
+	// 	.collect();
+	// dbg!(&users);
 	Ok(users)
 }
