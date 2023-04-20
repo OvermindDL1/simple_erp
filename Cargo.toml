@@ -39,10 +39,14 @@ ssr = ["dep:axum", "dep:tower", "dep:tower-http", "dep:tokio", "leptos/ssr", "le
 opt-level = 3
 
 [patch.crates-io]
-leptos = { path = "../leptos/leptos" }
-leptos_axum = { path = "../leptos/integrations/axum" }
-leptos_meta = { path = "../leptos/meta" }
-leptos_router = { path = "../leptos/router" }
+#leptos = { path = "../leptos/leptos" }
+#leptos_axum = { path = "../leptos/integrations/axum" }
+#leptos_meta = { path = "../leptos/meta" }
+#leptos_router = { path = "../leptos/router" }
+leptos = { git = "https://github.com/leptos-rs/leptos.git" }
+leptos_axum = { git = "https://github.com/leptos-rs/leptos.git" }
+leptos_meta = { git = "https://github.com/leptos-rs/leptos.git" }
+leptos_router = { git = "https://github.com/leptos-rs/leptos.git" }
 
 [package.metadata.leptos]
 # The name used by wasm-bindgen/cargo-leptos for the JS/WASM bundle. Defaults to the crate name
